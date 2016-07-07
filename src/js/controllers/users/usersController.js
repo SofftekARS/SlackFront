@@ -3,12 +3,12 @@
  */
 
 angular.module('RDash')
-    .controller('UsersCtrl', ['$scope', '$state',UsersCtrl]);
+    .controller('UsersCtrl', ['$scope',UsersCtrl]);
 
-function UsersCtrl($scope, $state) {
-
-    $scope.edita = function(){
+function UsersCtrl($scope) {
+    $scope.lala = "asd";
+    $scope.a = function(){
         alert("llegue");
-        $state.go("editUser");
+        //$state.go("editUser");
     }
 }

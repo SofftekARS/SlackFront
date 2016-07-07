@@ -8,18 +8,21 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
 
         // For unmatched routes
         $urlRouterProvider.otherwise('/');
-        
+
         // Application routes
         $stateProvider
-            .state('index', {
-                url: '/',
-                controller:'MasasdasdasdterCtrl',
+            .state('base', {
+                abstract:false,
+                url: '',
+                controller:'MasterCtrl',
                 controllerAs: 'home',
-                templateUrl: 'templates/dashboard.html'
+                templateUrl: 'templates/layout.html'
             })
-            .state('users', {
+            .state('base.users', {
                 url: '/users',
+                parent:'base',
                 controller:'UsersCtrl',
+                controllerAs:'users',
                 templateUrl: 'templates/users/users.html'
             })
             .state('editUsers', {
