@@ -7,10 +7,10 @@
                         <th class="widget-header">Nombre</th>
                         <th class="widget-header">Apellido</th>
                         <th class="widget-header"></th>
-                        <tr>
-                            <td>RDVMPC001</td>
-                            <td>238.103.133.37</td>
-                            <td><span class="text-success"><i ng-click="next('edit')" class="fa fa-edit"></i></span></td>
+                        <tr ng-repeat="user in users">
+                            <td>{{user.name}}</td>
+                            <td>{{user.nick_name}}</td>
+                            <td ng-click="next(user._id)"><span class="text-success"><i class="fa fa-edit"></i></span></td>
                         </tr>
                     </tbody>
                 </table>

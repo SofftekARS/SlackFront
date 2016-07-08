@@ -32,6 +32,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
             })
             .state('base.editUser', {
                 url: '/editUser',
+                params:{'userId':0},
                 controller:'EditUserCtrl',
                 templateUrl: 'templates/users/user.html'
             });
