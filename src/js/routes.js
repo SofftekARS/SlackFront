@@ -7,13 +7,18 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
 
         // For unmatched routes
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/login');
 
         // Application routes
         $stateProvider
+            .state('login', {
+                url: '/login',
+                controller:'LoginCtrl',
+                controllerAs: 'login',
+                templateUrl: 'templates/login.html'
+            })
             .state('base', {
                 abstract:false,
-                url: '',
                 controller:'MasterCtrl',
                 controllerAs: 'home',
                 templateUrl: 'templates/layout.html'
@@ -25,8 +30,9 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
                 controllerAs:'users',
                 templateUrl: 'templates/users/users.html'
             })
-            .state('editUsers', {
+            .state('base.editUser', {
                 url: '/editUser',
+                controller:'EditUserCtrl',
                 templateUrl: 'templates/users/user.html'
             });
     }

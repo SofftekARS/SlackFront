@@ -1,14 +1,12 @@
-/**
- * Master Controller
- */
-
 angular.module('RDash')
-    .controller('UsersCtrl', ['$scope',UsersCtrl]);
+    .controller('UsersCtrl', ['$scope','$rootScope','$state',UsersCtrl]);
 
-function UsersCtrl($scope) {
-    $scope.lala = "asd";
-    $scope.a = function(){
-        alert("llegue");
-        //$state.go("editUser");
+function UsersCtrl($scope, $rootScope, $state) {
+
+    $rootScope.title = "Usuarios";
+    $rootScope.route = "Usuarios";
+
+    $scope.next = function(action){
+        $state.go("base.editUser");
     }
 }

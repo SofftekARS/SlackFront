@@ -3,13 +3,16 @@
  */
 
 angular.module('RDash')
-    .controller('MasterCtrl', ['$scope', '$cookieStore', MasterCtrl]);
+    .controller('MasterCtrl', ['$scope', '$rootScope','$cookieStore', MasterCtrl]);
 
-function MasterCtrl($scope, $cookieStore) {
+function MasterCtrl($scope, $rootScope, $cookieStore) {
     /**
      * Sidebar Toggle & Cookie Control
      */
     var mobileView = 992;
+
+    $rootScope.title = "Home";
+    $rootScope.route = "Home";
 
     $scope.getWidth = function() {
         return window.innerWidth;
