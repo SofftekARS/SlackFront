@@ -5,12 +5,12 @@
                 <table class="table">
                     <tbody>
                         <th class="widget-header">Nombre</th>
-                        <th class="widget-header">Apellido</th>
+                        <th class="widget-header">Direccion</th>
                         <th class="widget-header" ng-click="add()"><span class="text-success"><i class="fa fa-plus-circle"></span></th>
-                        <tr ng-repeat="user in users">
-                            <td>{{user.name}}</td>
-                            <td>{{user.nick_name}}</td>
-                            <td ng-click="next(user._id)"><span class="text-success"><i class="fa fa-edit"></i></span></td>
+                        <tr ng-repeat="taller in talleres">
+                            <td>{{taller.name}}</td>
+                            <td>{{taller.direccion}}</td>
+                            <td ng-click="next(taller._id)"><span class="text-success"><i class="fa fa-edit"></i></span></td>
                         </tr>
                     </tbody>
                 </table>

@@ -2,6 +2,8 @@ angular.module('RDash')
     .controller('EditUserCtrl', ['$scope','$rootScope','$state','$stateParams','UserService',EditUserCtrl]);
 
 function EditUserCtrl($scope, $rootScope, $state, $stateParams, UserService) {
+    console.log("entre a editar");
+
     UserService.findById($stateParams.userId)
       .then(function(result){
           $scope.user = result;
@@ -12,8 +14,14 @@ function EditUserCtrl($scope, $rootScope, $state, $stateParams, UserService) {
 
     $scope.save = function(){
         console.log("save!!");
-        UserService.update($scope.user);
-        $state.go("base.users");
-
+        UserService.update($scope.user).then(function(){
+          $state.go("base.users");
+        });
+    }
+    $scope.delete = function(){
+        console.log("save!!");
+        UserService.deleteById($scope.user._id).then(function(){
+          $state.go("base.users");
+        });
     }
 }

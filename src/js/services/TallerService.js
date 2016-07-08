@@ -1,8 +1,8 @@
-angular.module('RDash').factory('UserService',['$http', '$q', 'apiUrl', UserService]);
+angular.module('RDash').factory('TallerService',['$http', '$q', 'apiUrl', TallerService]);
 
-function UserService($http, $q, apiUrl) {
+function TallerService($http, $q, apiUrl) {
 
-  var resource = "users";
+  var resource = "talleres";
 
   var service = {};
   service.getUsers = getUsers;
