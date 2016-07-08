@@ -23,6 +23,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
                 controllerAs: 'home',
                 templateUrl: 'templates/layout.html'
             })
+
             .state('base.users', {
                 url: '/users',
                 parent:'base',
@@ -35,11 +36,13 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
                 params:{'userId':0},
                 controller:'EditUserCtrl',
                 templateUrl: 'templates/users/user.html'
-            }).state('base.newUser', {
+            })
+            .state('base.newUser', {
                 url: '/newUser',
                 controller:'NewUserCtrl',
                 templateUrl: 'templates/users/user.html'
             })
+//------------------------------------------------------------------------
             .state('base.talleres', {
                 url: '/talleres',
                 parent:'base',
@@ -51,10 +54,41 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
                 params:{'tallerId':0},
                 controller:'EditTallerCtrl',
                 templateUrl: 'templates/talleres/taller.html'
-            }).state('base.newTaller', {
+            })
+            .state('base.newTaller', {
                 url: '/newTaller',
                 controller:'NewTallerCtrl',
                 templateUrl: 'templates/talleres/taller.html'
-            });
+            })
+//-----------------------------------------------------------------------------
+            .state('base.solicitudesDeServicio', {
+                url: '/solicitudesDeServicio',
+                controller:'SDSCtrl',
+                templateUrl: 'templates/SolicitudDeServicio/solicitudesDeServicio.html'
+            })
+            .state('base.newSolicitudesDeServicio', {
+                url: '/newSolicitudesDeServicio',
+                controller:'NewSDSCtrl',
+                templateUrl: 'templates/SolicitudDeServicio/solicitudDeServicio.html'
+            })
+            .state('base.editSolicitudesDeServicio', {
+                url: '/editSolicitudesDeServicio',
+                controller:'EditSDSCtrl',
+                params:{'solicitudId':0},
+                templateUrl: 'templates/SolicitudDeServicio/solicitudDeServicio.html'
+            })
+            .state('base.sendSolicitudDeServicio', {
+                url: '/sendSolicitudesDeServicio',
+                controller:'SendSDSCtrl',
+                params:{'solicitudId':0},
+                templateUrl: 'templates/SolicitudDeServicio/sendSolicitudDeServicio.html'
+            })
+//----------------------------------------------------------------------------------
+          .state('base.solicitudesDeCotizacion', {
+              url: '/solicitudesDeCotizacion',
+              controller:'SDCotizacionCtrl',
+              templateUrl: 'templates/SolicitudDeCotizacion/solicitudesDeCotizacion.html'
+          });
+
     }
 ]);

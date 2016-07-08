@@ -5,14 +5,14 @@ function UserService($http, $q, apiUrl) {
   var resource = "users";
 
   var service = {};
-  service.getUsers = getUsers;
+  service.getAll = getAll;
   service.findById = findById;
   service.update = update;
   service.save = save;
   service.deleteById = deleteById;
   return service;
 
-  function getUsers(){
+  function getAll(){
     var q = $q.defer();
     $http.get(apiUrl + resource).then(function(data) {
       q.resolve(data.data);

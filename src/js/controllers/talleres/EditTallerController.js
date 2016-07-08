@@ -20,7 +20,7 @@ function EditTallerCtrl($scope, $rootScope, $state, $stateParams, TallerService)
     }
     $scope.delete = function(){
         console.log("save!!");
-        TallerService.deleteById($scope.user._id).then(function(){
+        TallerService.deleteById($scope.taller._id).then(function(){
           $state.go("base.talleres");
         });
     }

@@ -7,7 +7,7 @@ function TalleresCtrl($scope, $rootScope, $state, TallerService) {
 
     $scope.talleres=[];
 
-    TallerService.getUsers().then(function(result){
+    TallerService.getAll().then(function(result){
         angular.extend($scope.talleres, result);
     });
 

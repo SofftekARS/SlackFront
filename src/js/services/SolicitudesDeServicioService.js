@@ -1,11 +1,13 @@
-angular.module('RDash').factory('TallerService',['$http', '$q', 'apiUrl', TallerService]);
+angular.module('RDash').factory('SolicitudDeServicioService',['$http', '$q', 'apiUrl', SolicitudDeServicioService]);
 
-function TallerService($http, $q, apiUrl) {
+function SolicitudDeServicioService($http, $q, apiUrl) {
 
-  var resource = "talleres";
+  var resource = "solicitudServicio";
 
   var service = {};
   service.getAll = getAll;
+  service.getAllPendientes = getAllPendientes;
+  service.getAllEnviadas = getAllEnviadas;
   service.findById = findById;
   service.update = update;
   service.save = save;
@@ -21,10 +23,32 @@ function TallerService($http, $q, apiUrl) {
     });
     return q.promise;
   }
+  function getAllEnviadas(){
+    var q = $q.defer();
+    $http.get(apiUrl + resource + '?status=send').then(function(data) {
+      q.resolve(data.data);
+    }, function(error) {
+      q.reject(error);
+    });
+    return q.promise;
+  }
+  function getAllPendientes(){
+    var q = $q.defer();
+    $http.get(apiUrl + resource + '?status=prossesing').then(function(data) {
+      q.resolve(data.data);
+    }, function(error) {
+      q.reject(error);
+    });
+    return q.promise;
+  }
+
   function findById(id){
     var q = $q.defer();
     $http.get(apiUrl + resource +'/'+id).then(function(data) {
-      q.resolve(data.data);
+      var solicitud = data.data;
+      console.log(solicitud);
+      solicitud.user = solicitud.user[0];
+      q.resolve(solicitud);
     }, function(error) {
       q.reject(error);
     });

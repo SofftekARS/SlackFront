@@ -7,7 +7,7 @@ function UsersCtrl($scope, $rootScope, $state, UserService) {
 
     $scope.users=[];
 
-    UserService.getUsers().then(function(result){
+    UserService.getAll().then(function(result){
         angular.extend($scope.users, result);
     });
 
