@@ -2,14 +2,14 @@ angular.module('RDash')
     .controller('EditSDCotizacionCtrl', ['$scope','$rootScope','$state','$stateParams',
     'SolicitudDeServicioService','UserService',EditSDCotizacionCtrl]);
 
-function EditSDCotizacionCtrl($scope, $rootScope, $state, $stateParams, 
+function EditSDCotizacionCtrl($scope, $rootScope, $state, $stateParams,
   SolicitudDeServicioService,UserService) {
     console.log("entre a editar");
 
   SolicitudDeServicioService.findById($stateParams.solicitudId)
       .then(function(result){
           console.log(result);
-          $scope.solicitud = result;
+          $scope.solicitudesPendientes = result;
       });
 
       UserService.getAll().then(function(data){

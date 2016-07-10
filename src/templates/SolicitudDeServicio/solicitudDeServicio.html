@@ -12,7 +12,13 @@
           <div class="form-group">
             <label for="fecha_deseada" class="col-sm-2 control-label">fecha_deseada</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="fecha_deseada" placeholder="dd/mm/aa" ng-model="solicitud.fecha_deseada">
+              <p class="input-group">
+                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="solicitud.fecha_deseada" is-open="popup1.opened"
+                datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
             </div>
           </div>
 

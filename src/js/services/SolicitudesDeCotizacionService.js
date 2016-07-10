@@ -22,6 +22,7 @@ function SolicitudesDeCotizacionService($http, $q, apiUrl) {
     };
     var endpoint = apiUrl + "solicitudServicio" + "/" + solicitudId + "/" + resource;
     console.log(endpoint);
+    console.log(req);
     $http.post( endpoint, req )
       .then(function(data) {
           console.log(data);

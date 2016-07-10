@@ -19,7 +19,7 @@ function SendSDSCtrl($scope, $rootScope, $state, $stateParams,
     $rootScope.route = "Talleres / Enviar Solicitud de Cotizacion";
 
     $scope.save = function(){
-        SolicitudesDeCotizacionService.send($scope.solicitud._id, $scope.tallerId).then(function(){
+        SolicitudesDeCotizacionService.send($scope.solicitud._id, $scope.solicitud.taller._id).then(function(){
           $state.go("base.solicitudesDeServicio");
         });
     }

@@ -48,6 +48,7 @@ function SolicitudDeServicioService($http, $q, apiUrl) {
       var solicitud = data.data;
       console.log(solicitud);
       solicitud.user = solicitud.user[0];
+      solicitud.fecha_deseada = new Date(solicitud.fecha_deseada);
       q.resolve(solicitud);
     }, function(error) {
       q.reject(error);
