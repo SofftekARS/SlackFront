@@ -5,12 +5,12 @@
               <div class="table-responsive">
                 <table class="table">
                     <tbody>
-                        <th class="widget-header">Nombre</th>
-                        <th class="widget-header">Descripcion</th>
+                        <th class="widget-header">Fecha</th>
+                        <th class="widget-header">Vehiculo</th>
                         <th class="widget-header" ng-click="add()"><span class="text-success"><i class="fa fa-plus-circle"></span></th>
                         <tr ng-repeat="solicitud in solicitudesPendientes">
-                            <td>{{solicitud.name}}</td>
-                            <td>{{solicitud.description}}</td>
+                            <td>{{solicitud.fecha_deseada | date:"MM/dd/yyyy h:mma"}}</td>
+                            <td>{{solicitud.vehiculo}}</td>
                             <td>
                               <span ng-click="next(solicitud._id)" class="text-success"><i class="fa fa-edit"></i></span>
                               <span ng-click="send(solicitud._id)" class="text-success"><i class="fa fa-paper-plane"></i></span>
@@ -42,11 +42,11 @@
             <div class="table-responsive">
                 <table class="table">
                     <tbody>
-                        <th class="widget-header">Nombre</th>
-                        <th class="widget-header">Descripcion</th>
-                        <tr ng-repeat="solicitud in solicitudesEnviadas">
-                            <td>{{solicitud.name}}</td>
-                            <td>{{solicitud.description}}</td>
+                      <th class="widget-header">Fecha</th>
+                      <th class="widget-header">Vehiculo</th>
+                      <tr ng-repeat="solicitud in solicitudesEnviadas">
+                          <td>{{solicitud.fecha_deseada | date:"MM/dd/yyyy h:mma"}}</td>
+                          <td>{{solicitud.vehiculo}}</td>
                         </tr>
                     </tbody>
                 </table>

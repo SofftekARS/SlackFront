@@ -8,6 +8,7 @@ function NewSDSCtrl($scope, $rootScope, $state, $stateParams, SolicitudDeServici
     $rootScope.route = "Solicitudes De Servicio / Edicion de Solicitudes De Servicio";
     $scope.solicitud ={};
     $scope.users ={};
+
     UserService.getAll().then(function(data){
       console.log(data);
       $scope.users = data;
@@ -16,6 +17,12 @@ function NewSDSCtrl($scope, $rootScope, $state, $stateParams, SolicitudDeServici
 
     $scope.save = function(){
         console.log("save!!");
+        if(!$rootScope.checkPermisos('admin')){
+          if(!$scope.solicitud.user){
+            $scope.solicitud.user = {};
+          }
+          $scope.solicitud.user._id = $rootScope.session.user._id;
+        }
         SolicitudDeServicioService.save($scope.solicitud).then(function(){
           $state.go("base.solicitudesDeServicio");
         });

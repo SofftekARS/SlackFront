@@ -8,11 +8,12 @@ function LoginCtrl($scope, $rootScope ,$state, $http, SecurityService) {
           $rootScope.session = result;
           $http.defaults.headers.common.Authorization = result.token;
           SecurityService.getPerfil(result.user[0].perfil[0]).then(function(perfil){
+            $rootScope.session.user = result.user[0];
             $rootScope.session.user.perfil = perfil;
             console.log("session");
             console.log($rootScope.session);
             console.log(perfil);
-            $state.go("base.users");
+            $state.go("base");
           });
       });
     }

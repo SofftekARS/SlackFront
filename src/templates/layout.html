@@ -10,16 +10,16 @@
         </a>
       </li>
       <li class="sidebar-title"><span>NAVIGATION</span></li>
-      <li class="sidebar-list">
+      <li class="sidebar-list" ng-show="checkPermisos('admin')">
         <a href="#/users">Usuarios <span class="menu-icon fa fa-users"></span></a>
       </li>
-      <li class="sidebar-list">
+      <li class="sidebar-list" ng-show="checkPermisos('admin')">
         <a href="#/talleres">Talleres <span class="menu-icon fa fa-car"></span></a>
       </li>
-      <li class="sidebar-list">
+      <li class="sidebar-list" ng-show="checkPermisos('cliente')">
         <a href="#/solicitudesDeServicio">S. De Servicio <span class="menu-icon fa fa-car"></span></a>
       </li>
-      <li class="sidebar-list">
+      <li class="sidebar-list" ng-show="checkPermisos('taller')">
         <a href="#/solicitudesDeCotizacion">S. De Cotizacion <span class="menu-icon fa fa-car"></span></a>
       </li>
     </ul>
@@ -56,7 +56,7 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-right">
                 <li class="dropdown-header">
-                  Joe Bloggs
+                  {{session.user.nick_name}} - {{session.user.perfil.name}}
                 </li>
                 <li class="divider"></li>
                 <li class="link">

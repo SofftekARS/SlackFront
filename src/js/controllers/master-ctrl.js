@@ -3,9 +3,9 @@
  */
 
 angular.module('RDash')
-    .controller('MasterCtrl', ['$scope', '$rootScope','$cookieStore', MasterCtrl]);
+    .controller('MasterCtrl', ['$scope', '$rootScope','$cookieStore','$state', MasterCtrl]);
 
-function MasterCtrl($scope, $rootScope, $cookieStore) {
+function MasterCtrl($scope, $rootScope, $cookieStore, $state) {
     /**
      * Sidebar Toggle & Cookie Control
      */
@@ -39,4 +39,14 @@ function MasterCtrl($scope, $rootScope, $cookieStore) {
     window.onresize = function() {
         $scope.$apply();
     };
+
+    $rootScope.checkPermisos = function(perfil){
+        if($rootScope.session.user.perfil.name == 'admin'){
+          return true;
+        }
+        return $rootScope.session.user.perfil.name == perfil;
+    }
+    $rootScope.$on('httpError',function(event,eventData){
+       $state.go("login");
+   });
 }
