@@ -8,14 +8,21 @@ let mongoose = require('mongoose');
 let morgan = require('morgan');
 let fs = require('fs');
 let path = require('path');
+let util = require('util');
 
 //---------------------------------------------------------------
+let log_file = fs.createWriteStream(__dirname + '/debug.log', { flags: 'w' });
+let log_stdout = process.stdout;
 
-let app = express();
+console.log = (d) => { //
+    log_file.write(util.format(d) + '\n');
+    log_stdout.write(util.format(d) + '\n');
+};
 let accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
-
 //----------------------------------------------------------------
 
+
+let app = express();
 mongoose.connect(config.database); // connect to database
 
 morgan.token('request', function getId(req) {
