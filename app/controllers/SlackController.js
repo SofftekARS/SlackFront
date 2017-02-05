@@ -31,7 +31,7 @@ let authorize = function(req, res) {
                 }
             });
         } else {
-            ResponseHelper.write(res, undefined, error, ResponseHelper.badRequest);
+            ResponseHelper.write(res, undefined, err, ResponseHelper.badRequest);
         }
     })
 };
