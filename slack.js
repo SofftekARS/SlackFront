@@ -4,7 +4,7 @@ Slack.api.test({}, function(error, data) {
     console.log(data);
 });
 
-Slack.oauth.getUrl({ clientId: });
+
 
 // create a bot 
 let bot_new = new SlackBot({
