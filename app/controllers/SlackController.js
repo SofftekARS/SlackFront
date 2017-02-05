@@ -45,11 +45,12 @@ let getUrl = function(req, res) {
 function saveSlack(slack, userId, res) {
     User.findById(userId, (err, user) => {
         if (!err && user) {
-            slack.save((err, new_obj) => {
-                user.slacks.push(new_obj);
+            slack.save((err, new_slack) => {
+                user.slacks.push(new_slack);
                 user.save((err, user) => {
                     ResponseHelper.write(res, user, err, ResponseHelper.create);
                 });
+                SlackConnector.setListeners(new_slack);
             });
         } else {
             console.error(err);

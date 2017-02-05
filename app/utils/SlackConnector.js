@@ -1,22 +1,27 @@
 let SlackApi = require('slack-api').promisify();
 let SlackBot = require('slackbots');
 let Slack = require('../models/slack');
-
+const channelGeneral = "pruebachannels1";
 let bots = [];
-
+let slacks = [];
 let start = () => {
     // busco los slacks y los guardo en memoria
-    Slack.find({}).exec((err, slacks) => {
-        slacks.forEach((slack) => {
-            let bot = getBot(slack);
-            setListeners(bot, slack, slacks);
+    Slack.find({}).exec((err, slacksDB) => {
+        console.log("inicializizo " + slacksDB.length + " slacks");
+        slacksDB.forEach((slack) => {
+            setListeners(slack);
         });
     });
 }
 
+
 /***Setea todos los observers, para que cuando 
  * alguien hable se escriba en el resto de los slacks */
-let setListeners = (bot, slack, slacks) => {
+let setListeners = (slack) => {
+    //agrego el slack al pool de slacks
+    slacks.push(slack);
+    console.log("agrego 1 slack: " + slacks.length);
+    let bot = getBot(slack);
     bot.on('message', (data) => {
         if (data.type == "message") {
             console.log(data);
@@ -24,6 +29,8 @@ let setListeners = (bot, slack, slacks) => {
                 slacks.forEach((other_slack) => {
                     if (slack != other_slack) {
                         writeMessage(other_slack, data.text);
+                    } else {
+                        console.log("este no");
                     }
                 });
             }
@@ -60,7 +67,7 @@ let writeMessage = (slack, message) => {
     if (!message) {
         message = "mensaje vacio";
     }
-    bot.postMessageToChannel('tt', message, params).always(function(data) {
+    bot.postMessageToChannel(channelGeneral, message, params).always(function(data) {
         console.log(data);
     });
 }
@@ -74,11 +81,16 @@ let getToken = (code, next) => {
         console.log("obtengo token: " + JSON.stringify(tokenResponse));
         //create a channel
         SlackApi.channels.create({
-            name: "salaComun",
+            name: channelGeneral,
             token: tokenResponse.access_token
         }).then((channelsResponse) => {
+            console.log("-------- cree el canal: ");
             console.log(channelsResponse);
-            //TODO: invite peaple join to chanel
+            SlackApi.channels.invite({
+                channel: channelsResponse.channel.id,
+                token: tokenResponse.access_token,
+                user: tokenResponse.bot.bot_user_id,
+            });
             next(undefined, tokenResponse);
         }).catch(SlackApi.errors.SlackError, function(error_channel) {
             console.log('Slack create channel: ' + error_channel.message);
@@ -113,4 +125,5 @@ start();
 module.exports = {
     getUrl: getUrl,
     getToken: getToken,
+    setListeners: setListeners,
 }
