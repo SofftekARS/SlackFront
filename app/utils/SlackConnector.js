@@ -24,13 +24,13 @@ let setListeners = (slack) => {
     let bot = getBot(slack);
     bot.on('message', (data) => {
         if (data.type == "message") {
-            console.log(data);
+            //console.log(data);
             if (data.subtype != "bot_message") {
                 slacks.forEach((other_slack) => {
                     if (slack != other_slack) {
                         writeMessage(other_slack, data.text);
                     } else {
-                        console.log("este no");
+                        //console.log("este no");
                     }
                 });
             }
@@ -45,13 +45,13 @@ let opt = {
 };
 
 let getBot = (slack) => {
-    let bot = bots[slack._id];
+    let bot = bots[slack.teamId];
     if (!bot) {
-        bots[slack._id] = new SlackBot({
+        bots[slack.teamId] = new SlackBot({
             token: slack.bot.bot_access_token,
             name: slack.teamName,
         });
-        bot = bots[slack._id];
+        bot = bots[slack.teamId];
     }
     return bot;
 }
@@ -67,7 +67,7 @@ let writeMessage = (slack, message) => {
     if (!message) {
         message = "mensaje vacio";
     }
-    bot.postMessageToChannel(channelGeneral, message, params).always(function(data) {
+    bot.postMessageToChannel(channelGeneral, message, params).fail(function(data) {
         console.log(data);
     });
 }
@@ -106,6 +106,11 @@ let getToken = (code, next) => {
         next(error);
     });
 }
+let getImageTeam = (slack) => {
+    getBot(slack).on("start", () => {
+        console.log(SlackApi.team);
+    });
+}
 
 /**
  * Obtengo la url para redirigir
@@ -126,4 +131,5 @@ module.exports = {
     getUrl: getUrl,
     getToken: getToken,
     setListeners: setListeners,
+    getImageTeam: getImageTeam
 }

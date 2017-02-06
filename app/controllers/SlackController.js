@@ -22,6 +22,7 @@ let authorize = function(req, res) {
         if (!err) {
             let slack = new Slack();
             slack.populateFromSlackResponse(ok);
+            SlackConnector.getImageTeam(slack);
             Slack.findOne({ teamId: ok.team_id }, (err, findSlack) => {
                 if (!findSlack && !err) {
                     console.log("guardando slack");

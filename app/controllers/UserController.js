@@ -4,12 +4,20 @@ let GenericDao = require('../utils/GenericDao');
 
 function init(router) {
     router.route('/users')
-        .get(getUsers)
-        .post(saveUser);
+        .get(getUsers);
+    router.route('/users/slacks')
+        .get(getSlacks);
     router.route('/users/:id')
-        .get(getUser);
+        .get(getUser)
+        .post(saveUser);
 }
 
+let getSlacks = function(req, res) {
+    User.findById(req.decoded._doc._id).select("-_id -password -creation -name -__v").populate("slacks", "-__v -token -bot -scope").exec(
+        function(err, users) {
+            ResponseHelper.write(res, users, err, ResponseHelper.get);
+        });
+};
 let getUsers = function(req, res) {
     User.find({}).select("-password").exec(
         function(err, users) {
