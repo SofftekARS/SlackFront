@@ -6,7 +6,7 @@ angular.module('RDash').factory('requestRejector', ['$rootScope', '$q', function
     var requestRejector = {
         responseError: function(response) {
             console.log(response.status);
-            if (response.status != 200) {
+            if (response.status == 500 || response.status == 401 || response.status == 403) {
                 $rootScope.$broadcast('httpError');
                 return $q.reject(response);
             } else {

@@ -1,21 +1,38 @@
 angular.module('RDash')
-    .controller('UsersCtrl', ['$scope', '$rootScope', '$state', 'UserService', UsersCtrl]);
+    .controller('SlacksCtrl', ['$scope', '$rootScope', '$state', '$http', '$location', 'SlackService', SlackCtrl]);
 
-function UsersCtrl($scope, $rootScope, $state, UserService) {
+function SlackCtrl($scope, $rootScope, $state, $http, $location, SlackService) {
     $rootScope.title = "Slacks";
     $rootScope.route = "Slacks";
+    $scope.slacks = [];
 
-    /*$scope.users=[];
+    start();
 
-    UserService.getAll().then(function(result){
-        angular.extend($scope.users, result);
-    });
-
-    $scope.next = function(id){
-        console.log(id);
-        $state.go("base.editUser", {userId : id});
+    $scope.authorizeSlack = function() {
+        SlackService.getUrl().then(function(result) {
+            console.log(result);
+            window.localStorage['tokenSlackApp'] = $http.defaults.headers.common.Authorization;
+            console.log("me voy a: " + result.url);
+            window.location.href = result.url;
+        });
     }
-    $scope.add = function(){
-        $state.go("base.newUser");
-    }*/
+
+    function start() {
+        var token = window.localStorage['tokenSlackApp'];
+        console.log("token: " + token);
+        if (token != 'false') {
+            console.log("piso jwt: " + token);
+            $http.defaults.headers.common.Authorization = token;
+            window.localStorage['tokenSlackApp'] = false;
+        }
+        var code = $location.search().code;
+        if (code) {
+            SlackService.authorize(code).then(function(result) {
+                console.log(result);
+            });
+        }
+        SlackService.getSlackByUser().then(function(data) {
+            $scope.slacks = data.slacks;
+        });
+    }
 }

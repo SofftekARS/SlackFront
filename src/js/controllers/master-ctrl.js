@@ -41,10 +41,11 @@
      };
 
      $rootScope.checkPermisos = function(perfil) {
-         if ($rootScope.session.user.perfil.name == 'admin') {
+         /*if ($rootScope.session.user.perfil.name == 'admin') {
              return true;
          }
-         return $rootScope.session.user.perfil.name == perfil;
+         return $rootScope.session.user.perfil.name == perfil;*/
+         return true;
      }
      $rootScope.$on('httpError', function(event, eventData) {
          console.log(eventData);
