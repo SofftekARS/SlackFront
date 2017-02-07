@@ -88,28 +88,7 @@ let getToken = (code, next) => {
     //change code to token
     SlackApi.oauth.access(opt).then((tokenResponse) => {
         console.log("obtengo token: " + JSON.stringify(tokenResponse));
-        //create a channel
-        SlackApi.channels.create({
-            name: channelGeneral,
-            token: tokenResponse.access_token
-        }).then((channelsResponse) => {
-            console.log("-------- cree el canal: ");
-            console.log(channelsResponse);
-            SlackApi.channels.invite({
-                channel: channelsResponse.channel.id,
-                token: tokenResponse.access_token,
-                user: tokenResponse.bot.bot_user_id,
-            });
-            next(undefined, tokenResponse);
-        }).catch(SlackApi.errors.SlackError, function(error_channel) {
-            console.log('Slack create channel: ' + error_channel.message);
-            if (error_channel.message != "name_taken") {
-                next(error_channel);
-            } else {
-                //TODO: invite peaple join to chanel
-                next(undefined, tokenResponse);
-            }
-        });
+        next(undefined, tokenResponse);
     }).catch(SlackApi.errors.SlackError, function(error) {
         console.log('Slack did not like what you did: ' + error.message);
         next(error);
@@ -119,11 +98,36 @@ let getImageTeam = (slack) => {
     getBot(slack).on("start", () => {
         console.log(SlackApi.team);
     });
-}
+};
 
-/**
- * Obtengo la url para redirigir
- */
+let createChannel = (token, botUserId, next) => {
+        //create a channel
+        SlackApi.channels.create({ name: channelGeneral, token: token }).then((channelsResponse) => {
+            console.log("-------- cree el canal: ");
+            console.log(channelsResponse);
+
+            let inviteOptions = {
+                channel: channelsResponse.channel.id,
+                token: token,
+                user: botUserId,
+            };
+
+            SlackApi.channels.invite(inviteOptions);
+            next(undefined, channelsResponse);
+
+        }).catch(SlackApi.errors.SlackError, function(error_channel) {
+            console.log('Slack create channel: ' + error_channel.message);
+            if (error_channel.message != "name_taken") {
+                next(error_channel);
+            } else {
+                //TODO: invite peaple join to chanel
+                next(undefined, channelsResponse);
+            }
+        });
+    }
+    /**
+     * Obtengo la url para redirigir
+     */
 let getUrl = (next) => {
     SlackApi.oauth.getUrl(opt).then((url) => {
         console.log("salck me dio esta url: " + url);
@@ -140,5 +144,6 @@ module.exports = {
     getUrl: getUrl,
     getToken: getToken,
     setListeners: setListeners,
-    getImageTeam: getImageTeam
+    getImageTeam: getImageTeam,
+    createChannel: createChannel,
 }

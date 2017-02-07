@@ -10,8 +10,15 @@ function init(router) {
         .get(getAll);
     router.route('/slack/url')
         .get(getUrl);
+    router.route('/slack/:id')
+        .get(getById);
 }
 
+let getById = function(req, res) {
+    Slack.findById(req.params.id, function(err, user) {
+        ResponseHelper.write(res, user, err, ResponseHelper.get);
+    });
+}
 let getAll = function(req, res) {
     Slack.find({}).exec((err, slacks) => {
         ResponseHelper.write(res, slacks, err, ResponseHelper.get);
@@ -28,6 +35,7 @@ let authorize = function(req, res) {
                     console.log("guardando slack");
                     saveSlack(slack, req.decoded._doc._id, res);
                 } else {
+                    //TODO: buscar si esta en el usuario, sino agregarlo
                     ResponseHelper.write(res, { message: "el Slack ya existe" }, err, ResponseHelper.badRequest);
                 }
             });

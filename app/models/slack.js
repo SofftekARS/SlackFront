@@ -10,7 +10,8 @@ var SlackSchema = new Schema({
     scope: { type: String, required: true },
     teamName: { type: String, required: true },
     teamId: { type: String, required: true, index: { unique: true } },
-    bot: botSchemma
+    channel: { type: String, index: { unique: true } },
+    bot: botSchemma,
 }, { collection: 'Slacks' });
 
 SlackSchema.methods.populate = function(req) {
