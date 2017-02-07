@@ -1,9 +1,19 @@
 let SlackApi = require('slack-api').promisify();
 let SlackBot = require('slackbots');
 let Slack = require('../models/slack');
+let Async = require('async');
+
 const channelGeneral = "pruebachannels1";
+
+let opt = {
+    client_id: '136512074102.135911134772',
+    client_secret: "213f6bb78f755ab427ec713fa7a52ffe",
+    scope: 'admin, bot, channels:read chat:write:bot channels:write'
+};
+
 let bots = [];
 let slacks = [];
+
 let start = () => {
     // busco los slacks y los guardo en memoria
     Slack.find({}).exec((err, slacksDB) => {
@@ -21,28 +31,28 @@ let setListeners = (slack) => {
     //agrego el slack al pool de slacks
     slacks.push(slack);
     console.log("agrego 1 slack: " + slacks.length);
+    //busco el bot correspontiente a ese slack
     let bot = getBot(slack);
-    bot.on('message', (data) => {
-        if (data.type == "message") {
-            //console.log(data);
-            if (data.subtype != "bot_message") {
-                slacks.forEach((other_slack) => {
-                    if (slack != other_slack) {
-                        writeMessage(other_slack, data.text);
-                    } else {
-                        //console.log("este no");
-                    }
-                });
-            }
+    bot.on('message', (event) => {
+        //cuando pasa algo en cada slack me fijo que sea del tipo mensaje
+        if (event.type == "message" && event.subtype != "bot_message") {
+            //le aviso a todos los otros slacks que tengo que escribirles
+            callOthersSlacks(slack, bot.token, event);
         }
     });
 }
 
-let opt = {
-    client_id: '136512074102.135911134772',
-    client_secret: "213f6bb78f755ab427ec713fa7a52ffe",
-    scope: 'admin, bot, channels:read chat:write:bot channels:write'
-};
+let callOthersSlacks = (slack, tokenBot, event) => {
+    slacks.forEach((otherSlack) => {
+        //skipeo el slack donde se produjo el evento 
+        if (slack != otherSlack) {
+            //obtengo la info del usuario
+            SlackApi.users.info({ token: tokenBot, user: event.user }, (err, userDetail) => {
+                writeMessage(otherSlack, event, slack.teamName, userDetail.user);
+            });
+        }
+    });
+}
 
 let getBot = (slack) => {
     let bot = bots[slack.teamId];
@@ -57,17 +67,16 @@ let getBot = (slack) => {
 }
 
 /***Escribe el mesaje en un slack en particular */
-let writeMessage = (slack, message) => {
+let writeMessage = (slack, data, teamName, user) => {
+    console.log(user);
     let params = {
-        username: "damian/doit",
-        icon_emoji: ':cat:'
+        username: user.name + "/" + teamName,
+        icon_url: user.profile.image_32
+
     };
     let bot = getBot(slack);
-    console.log("--------- escribo en: " + slack.teamName);
-    if (!message) {
-        message = "mensaje vacio";
-    }
-    bot.postMessageToChannel(channelGeneral, message, params).fail(function(data) {
+    console.log("escribo en: " + slack.teamName + ": " + JSON.stringify(data));
+    bot.postMessageToChannel(channelGeneral, data.text, params).fail(function(data) {
         console.log(data);
     });
 }
