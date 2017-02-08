@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -49,3 +50,6 @@ Icon
 
 # JetBrains
 .idea
+=======
+*.log
+>>>>>>> 6ad011c59e8ef1d472729f8acb1796a7127a0a53
