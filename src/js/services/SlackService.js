@@ -8,7 +8,18 @@ function SlackService($http, $q, apiUrl) {
     service.getUrl = getUrl;
     service.authorize = authorize;
     service.getSlackByUser = getSlackByUser;
+    service.findById = findById;
     return service;
+
+    function findById(id) {
+        var q = $q.defer();
+        $http.get(apiUrl + resource + '/' + id).then(function(data) {
+            q.resolve(data.data);
+        }, function(error) {
+            q.reject(error);
+        });
+        return q.promise;
+    }
 
     function getSlackByUser() {
         var q = $q.defer();

@@ -17,10 +17,15 @@ function SlackCtrl($scope, $rootScope, $state, $http, $location, SlackService) {
         });
     }
 
+    $scope.next = function(id) {
+        console.log(id);
+        $state.go("base.editSlack", { slackId: id });
+    }
+
     function start() {
         var token = window.localStorage['tokenSlackApp'];
         console.log("token: " + token);
-        if (token != 'false') {
+        if (token && token != 'false') {
             console.log("piso jwt: " + token);
             $http.defaults.headers.common.Authorization = token;
             window.localStorage['tokenSlackApp'] = false;

@@ -48,6 +48,11 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
                 parent: 'base',
                 controller: 'SlacksCtrl',
                 templateUrl: 'templates/slacks/slacks.html'
+            }).state('base.editSlack', {
+                url: '/editSlack',
+                params: { 'slackId': 0 },
+                controller: 'EditSlackCtrl',
+                templateUrl: 'templates/slacks/slack.html'
             });
     }
 ]);
